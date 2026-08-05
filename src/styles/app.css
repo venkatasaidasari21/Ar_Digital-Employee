@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@layer base {
+  html,
+  body {
+    @apply bg-[#05070f] text-slate-100 antialiased;
+  }
+}
+
+/* Futuristic backdrop: near-black with cyan/violet glows and a faint grid. */
+.bg-voxos {
+  background:
+    radial-gradient(1100px 560px at 50% -12%, rgb(56 189 248 / 0.16), transparent 62%),
+    radial-gradient(900px 520px at 88% 108%, rgb(139 92 246 / 0.13), transparent 60%),
+    radial-gradient(700px 400px at 6% 40%, rgb(34 211 238 / 0.06), transparent 60%),
+    #05070f;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgb(148 163 184 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #67e8f9 0%, #a5b4fc 52%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-up {
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes pulseRingCyan {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(34 211 238 / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgb(34 211 238 / 0);
+  }
+}
+.animate-pulse-ring {
+  animation: pulseRingCyan 1.4s ease-in-out infinite;
+}
+
+@keyframes pulseRingAmber {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 9px rgb(251 191 36 / 0);
+  }
+}
+.animate-pulse-ring-amber {
+  animation: pulseRingAmber 1.7s ease-in-out infinite;
+}
