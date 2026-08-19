@@ -26,3 +26,12 @@ jobs:
         run: bun test
       - name: Format check
         run: bunx prettier --check .
+      - name: Dependency audit
+        # bun audit is wired in so every push/PR surfaces the current dependency
+        # security posture. It currently reports several advisories in transitive
+        # toolchain deps (vite/postcss/nanoid and @tanstack/react-start/js-yaml)
+        # that pin below the fixed versions with no compatible-version upgrade yet.
+        # continue-on-error logs them without blocking the pipeline; flip it to
+        # strict once those advisories are resolvable upstream.
+        run: bun audit --production
+        continue-on-error: true
