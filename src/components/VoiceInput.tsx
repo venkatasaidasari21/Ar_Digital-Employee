@@ -16,7 +16,9 @@ interface SpeechRecognitionLike {
   stop(): void;
   abort(): void;
   onresult:
-    | ((e: { results: { length: number; [i: number]: SpeechRecognitionResultLike } }) => void)
+    | ((e: {
+        results: { length: number; [i: number]: SpeechRecognitionResultLike };
+      }) => void)
     | null;
   onerror: ((e: { error: string }) => void) | null;
   onend: (() => void) | null;
@@ -70,7 +72,9 @@ export function VoiceInput({ onSubmit, disabled = false }: VoiceInputProps) {
     if (disabled) return;
     const rec = getRecognition();
     if (!rec) {
-      setNote("Voice capture isn't supported in this browser — type your goal instead.");
+      setNote(
+        "Voice capture isn't supported in this browser — type your goal instead.",
+      );
       setSupported(false);
       return;
     }
@@ -82,7 +86,8 @@ export function VoiceInput({ onSubmit, disabled = false }: VoiceInputProps) {
 
     rec.onresult = (e) => {
       let transcript = "";
-      for (let i = 0; i < e.results.length; i++) transcript += e.results[i][0].transcript;
+      for (let i = 0; i < e.results.length; i++)
+        transcript += e.results[i][0].transcript;
       setText(transcript);
       const final = e.results[e.results.length - 1]?.isFinal;
       const trimmed = transcript.trim();
@@ -161,7 +166,9 @@ export function VoiceInput({ onSubmit, disabled = false }: VoiceInputProps) {
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder={supported ? "Speak or type your goal…" : "Type your goal…"}
+            placeholder={
+              supported ? "Speak or type your goal…" : "Type your goal…"
+            }
             autoComplete="off"
             disabled={disabled}
             className="h-11 w-full bg-transparent text-base text-slate-100 placeholder-slate-500 outline-none disabled:opacity-60"
@@ -180,7 +187,8 @@ export function VoiceInput({ onSubmit, disabled = false }: VoiceInputProps) {
       {listening && (
         <p className="mt-3 flex items-center gap-2 text-sm text-cyan-300">
           <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" />
-          Listening — speak your goal. It runs as soon as you finish the sentence.
+          Listening — speak your goal. It runs as soon as you finish the
+          sentence.
         </p>
       )}
       {!listening && note && (
@@ -188,7 +196,9 @@ export function VoiceInput({ onSubmit, disabled = false }: VoiceInputProps) {
       )}
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="text-xs uppercase tracking-wider text-slate-500">Try</span>
+        <span className="text-xs uppercase tracking-wider text-slate-500">
+          Try
+        </span>
         {SUGGESTIONS.map((s) => (
           <button
             key={s}
@@ -210,7 +220,15 @@ export function VoiceInput({ onSubmit, disabled = false }: VoiceInputProps) {
 
 function MicIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="9" y="2.5" width="6" height="11" rx="3" />
       <path d="M5 11a7 7 0 0 0 14 0" />
       <path d="M12 18v3.5" />

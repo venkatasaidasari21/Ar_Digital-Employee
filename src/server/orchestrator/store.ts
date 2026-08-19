@@ -25,7 +25,8 @@ async function load() {
     const parsed = JSON.parse(raw) as PersistedRun[];
     for (const run of parsed) runs.set(run.runId, run);
   } catch (error: any) {
-    if (error?.code !== "ENOENT") console.error("VoxOS store load failed", error);
+    if (error?.code !== "ENOENT")
+      console.error("VoxOS store load failed", error);
   }
 }
 export function ensureLoaded() {
@@ -42,11 +43,33 @@ export async function persist() {
   });
   return writeQueue;
 }
-export async function allRuns() { await ensureLoaded(); return [...runs.values()].sort((a,b) => b.createdAt.localeCompare(a.createdAt)); }
-export async function getRun(id: string) { await ensureLoaded(); return runs.get(id); }
-export async function saveRun(run: PersistedRun) { await ensureLoaded(); runs.set(run.runId, run); await persist(); return run; }
+export async function allRuns() {
+  await ensureLoaded();
+  return [...runs.values()].sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt),
+  );
+}
+export async function getRun(id: string) {
+  await ensureLoaded();
+  return runs.get(id);
+}
+export async function saveRun(run: PersistedRun) {
+  await ensureLoaded();
+  runs.set(run.runId, run);
+  await persist();
+  return run;
+}
 export function publicRun(run: PersistedRun) {
-  const { retryCounts: _retryCounts, createdAt: _createdAt, updatedAt: _updatedAt, ...apiRun } = run;
+  const {
+    retryCounts: _retryCounts,
+    createdAt: _createdAt,
+    updatedAt: _updatedAt,
+    ...apiRun
+  } = run;
   return apiRun;
 }
-export function timestamps(run: PersistedRun) { const now = new Date().toISOString(); run.updatedAt = now; return now; }
+export function timestamps(run: PersistedRun) {
+  const now = new Date().toISOString();
+  run.updatedAt = now;
+  return now;
+}
