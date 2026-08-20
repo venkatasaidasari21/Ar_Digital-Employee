@@ -27,11 +27,12 @@ jobs:
       - name: Format check
         run: bunx prettier --check .
       - name: Dependency audit
-        # bun audit is wired in so every push/PR surfaces the current dependency
-        # security posture. It currently reports several advisories in transitive
-        # toolchain deps (vite/postcss/nanoid and @tanstack/react-start/js-yaml)
-        # that pin below the fixed versions with no compatible-version upgrade yet.
-        # continue-on-error logs them without blocking the pipeline; flip it to
-        # strict once those advisories are resolvable upstream.
+        # Gate strictly on production-vulnerability posture. bun audit used to
+        # report 6 advisories in build-time transitive toolchain deps (nanoid +
+        # postcss via vite, js-yaml via @tanstack/react-start build plugins) that
+        # had no compatible-version upgrade. package.json "overrides" now pin
+        # those transitive deps to the patched releases (3.3.18 / 8.5.26 / 4.3.1),
+        # so `bun audit --production` exits 0 ("No vulnerabilities found"). If it
+        # ever exits non-zero again that is a real production-vulnerability
+        # regression and must fail the pipeline -- no silent ignoring.
         run: bun audit --production
-        continue-on-error: true
