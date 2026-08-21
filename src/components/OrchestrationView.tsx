@@ -26,10 +26,17 @@ function speak(text: string) {
   }
 }
 
-const STATUS_META: Record<TaskStatus, { label: string; dot: string; text: string }> = {
+const STATUS_META: Record<
+  TaskStatus,
+  { label: string; dot: string; text: string }
+> = {
   planned: { label: "planned", dot: "bg-slate-500", text: "text-slate-400" },
   running: { label: "running", dot: "bg-cyan-400", text: "text-cyan-300" },
-  "needs-approval": { label: "needs you", dot: "bg-amber-400", text: "text-amber-300" },
+  "needs-approval": {
+    label: "needs you",
+    dot: "bg-amber-400",
+    text: "text-amber-300",
+  },
   done: { label: "done", dot: "bg-emerald-400", text: "text-emerald-300" },
 };
 
@@ -129,8 +136,12 @@ export function OrchestrationView({ run, onReset }: OrchestrationViewProps) {
 
       {/* Goal */}
       <div className="mb-5 rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4">
-        <div className="text-xs uppercase tracking-wider text-slate-500">Goal</div>
-        <div className="mt-1 text-lg font-medium text-slate-100">“{state.goal}”</div>
+        <div className="text-xs uppercase tracking-wider text-slate-500">
+          Goal
+        </div>
+        <div className="mt-1 text-lg font-medium text-slate-100">
+          “{state.goal}”
+        </div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-5">
@@ -157,8 +168,12 @@ export function OrchestrationView({ run, onReset }: OrchestrationViewProps) {
           >
             {state.feed.map((e) => (
               <div key={e.id} className="flex gap-2 leading-relaxed">
-                <span className="shrink-0 text-slate-600">+{(e.time / 1000).toFixed(1)}s</span>
-                <span className="shrink-0 text-slate-500">[{e.agent ?? "voxos"}]</span>
+                <span className="shrink-0 text-slate-600">
+                  +{(e.time / 1000).toFixed(1)}s
+                </span>
+                <span className="shrink-0 text-slate-500">
+                  [{e.agent ?? "voxos"}]
+                </span>
                 <span
                   className={
                     e.kind === "approval"
@@ -211,7 +226,9 @@ export function OrchestrationView({ run, onReset }: OrchestrationViewProps) {
       )}
 
       <p className="mt-6 text-center text-xs text-slate-600">
-        {run.demoMode ? "API unavailable — running the local demo simulation." : "Live run powered by the VoxOS orchestrator."}
+        {run.demoMode
+          ? "API unavailable — running the local demo simulation."
+          : "Live run powered by the VoxOS orchestrator."}
       </p>
     </div>
   );
@@ -232,7 +249,9 @@ function TaskRow({ task, run }: { task: Task; run: RunHandle }) {
         {task.status === "running" && (
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-60" />
         )}
-        <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${meta.dot}`} />
+        <span
+          className={`relative inline-flex h-2.5 w-2.5 rounded-full ${meta.dot}`}
+        />
       </span>
       <div className="min-w-0 flex-1">
         <div className="truncate text-sm text-slate-100">{task.title}</div>
@@ -276,15 +295,35 @@ function TaskRow({ task, run }: { task: Task; run: RunHandle }) {
 function Spinner() {
   return (
     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 animate-spin" fill="none">
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity="0.25" strokeWidth="3" />
-      <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        stroke="currentColor"
+        strokeOpacity="0.25"
+        strokeWidth="3"
+      />
+      <path
+        d="M21 12a9 9 0 0 0-9-9"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
 function CheckIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M4 12.5l5 5L20 6.5" />
     </svg>
   );

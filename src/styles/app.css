@@ -10,9 +10,21 @@
 /* Futuristic backdrop: near-black with cyan/violet glows and a faint grid. */
 .bg-voxos {
   background:
-    radial-gradient(1100px 560px at 50% -12%, rgb(56 189 248 / 0.16), transparent 62%),
-    radial-gradient(900px 520px at 88% 108%, rgb(139 92 246 / 0.13), transparent 60%),
-    radial-gradient(700px 400px at 6% 40%, rgb(34 211 238 / 0.06), transparent 60%),
+    radial-gradient(
+      1100px 560px at 50% -12%,
+      rgb(56 189 248 / 0.16),
+      transparent 62%
+    ),
+    radial-gradient(
+      900px 520px at 88% 108%,
+      rgb(139 92 246 / 0.13),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 400px at 6% 40%,
+      rgb(34 211 238 / 0.06),
+      transparent 60%
+    ),
     #05070f;
 }
 
