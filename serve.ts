@@ -9,6 +9,7 @@
 // with an already-running server. Every sandbox user has passwordless sudo, so
 // the takeover works across user boundaries.
 import handler from "./dist/server/server.js";
+import { logger } from "./src/server/logger";
 import {
   createRun,
   decide,
@@ -58,7 +59,9 @@ async function api(
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("VoxOS API error", error);
+    logger.error("VoxOS API error", {
+      error: error instanceof Error ? error.message : String(error),
+    });
     return json({ error: "Internal server error" }, 500);
   }
 }
@@ -112,4 +115,4 @@ for (let attempt = 1; ; attempt++) {
   }
 }
 
-console.log(`team-site serving on http://${HOST}:${String(PORT)}`);
+logger.info(`team-site serving on http://${HOST}:${String(PORT)}`);

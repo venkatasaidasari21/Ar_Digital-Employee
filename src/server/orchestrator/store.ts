@@ -1,6 +1,7 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { FeedEvent, RunResult, RunPhase, Task } from "../../types";
+import { logger } from "../logger";
 
 export interface PersistedRun {
   runId: string;
@@ -24,9 +25,12 @@ async function load() {
     const raw = await readFile(filePath, "utf8");
     const parsed = JSON.parse(raw) as PersistedRun[];
     for (const run of parsed) runs.set(run.runId, run);
-  } catch (error: any) {
-    if (error?.code !== "ENOENT")
-      console.error("VoxOS store load failed", error);
+  } catch (error: unknown) {
+    const code = (error as { code?: string } | null)?.code;
+    if (code !== "ENOENT")
+      logger.error("Store load failed", {
+        reason: error instanceof Error ? error.message : String(error),
+      });
   }
 }
 export function ensureLoaded() {
