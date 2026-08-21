@@ -1,4 +1,5 @@
 import type { FeedEvent, Task, RunResult } from "../../types";
+import { logger } from "../logger";
 import {
   allRuns,
   ensureLoaded,
@@ -32,10 +33,9 @@ export class LLMPlanner implements Plannable {
         goal,
       );
     } catch (error) {
-      console.warn(
-        "VoxOS: LLM planning failed; using safe fallback plan.",
-        error instanceof Error ? error.message : "unknown error",
-      );
+      logger.warn("LLM planning failed; using safe fallback plan.", {
+        reason: error instanceof Error ? error.message : "unknown error",
+      });
       return defaultPlanner.plan(goal);
     }
   }

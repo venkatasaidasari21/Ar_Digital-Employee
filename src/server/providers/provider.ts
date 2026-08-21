@@ -1,4 +1,5 @@
 import type { Task } from "../../types";
+import { logger } from "../logger";
 
 export interface LLMProvider {
   readonly name: "openai" | "gemini";
@@ -28,16 +29,21 @@ export async function getProvider(): Promise<LLMProvider | null> {
   const requested = requestedProvider();
   const active = activeProviderName();
   if (requested === "openai" && !process.env.OPENAI_API_KEY)
-    console.warn(
-      "VoxOS: VOXOS_PROVIDER=openai but OPENAI_API_KEY is missing; using built-in default.",
+    logger.warn(
+      "VOXOS_PROVIDER=openai but OPENAI_API_KEY is missing; using built-in default.",
+      { provider: "openai" },
     );
   if (requested === "gemini" && !process.env.GEMINI_API_KEY)
-    console.warn(
-      "VoxOS: VOXOS_PROVIDER=gemini but GEMINI_API_KEY is missing; using built-in default.",
+    logger.warn(
+      "VOXOS_PROVIDER=gemini but GEMINI_API_KEY is missing; using built-in default.",
+      { provider: "gemini" },
     );
   if (requested && !["openai", "gemini", "default"].includes(requested))
-    console.warn(
-      `VoxOS: unknown VOXOS_PROVIDER '${requested}'; using built-in default.`,
+    logger.warn(
+      `Unknown VOXOS_PROVIDER '${requested}'; using built-in default.`,
+      {
+        provider: requested,
+      },
     );
   if (active === "default") return null;
   if (active === "openai") {
